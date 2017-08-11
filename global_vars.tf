@@ -10,16 +10,8 @@ variable "aws_access_key" {
   description = "Amazon Web Service Access Key"
 }
 
-variable "vpc_id" {
-  description = "The survey runner VPC ID"
-}
-
 variable "ecs_cluster_name" {
   description = "The name of the survey runner ECS cluster"
-}
-
-variable "aws_alb_dns_name" {
-  description = "The DNS name of the survey runner ALB"
 }
 
 variable "aws_alb_listener_arn" {
@@ -27,11 +19,6 @@ variable "aws_alb_listener_arn" {
 }
 
 # DNS
-variable "dns_zone_id" {
-  description = "Amazon Route53 DNS zone identifier"
-  default     = "Z2XIERRF1SJEYP"
-}
-
 variable "dns_zone_name" {
   description = "Amazon Route53 DNS zone name"
   default     = "eq.ons.digital."

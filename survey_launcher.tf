@@ -2,7 +2,7 @@ resource "aws_alb_target_group" "survey_launcher" {
   name     = "${var.env}-survey-launcher-ecs"
   port     = 80
   protocol = "HTTP"
-  vpc_id   = "${var.vpc_id}"
+  vpc_id   = "${data.aws_alb.eq.vpc_id}"
 
   health_check = {
     healthy_threshold   = 2
@@ -17,7 +17,7 @@ resource "aws_alb_target_group" "survey_launcher" {
 }
 
 resource "aws_alb_listener_rule" "survey_launcher" {
-  listener_arn = "${var.aws_alb_listener_arn}"
+  listener_arn = "${data.aws_alb_listener.eq.arn}"
   priority     = "${var.alb_listener_rule_priority_offset + 100}"
 
   action {
@@ -32,11 +32,11 @@ resource "aws_alb_listener_rule" "survey_launcher" {
 }
 
 resource "aws_route53_record" "survey_launcher" {
-  zone_id = "${var.dns_zone_id}"
-  name    = "${var.env}-surveys-launch.${var.dns_zone_name}"
+  zone_id = "${data.aws_route53_zone.dns_zone.id}"
+  name    = "${var.env}-surveys-launch.${data.aws_route53_zone.dns_zone.name}"
   type    = "CNAME"
   ttl     = "60"
-  records = ["${var.aws_alb_dns_name}"]
+  records = ["${data.aws_alb.eq.dns_name}"]
 }
 
 data "template_file" "survey_launcher" {
